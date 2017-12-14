@@ -65,7 +65,7 @@ def bipartite_matching_setup(A, ei, ej, n, m):
         if isstruct(A):
             [nzi nzj nzv] = csr_to_sparse(A.rp,A.ci,A.ai)
         else:
-            [nzi, nzj, nzv] = find(A)
+            [nzi, nzj, nzv] = np.nonzero(A)
         [n, m] = size(A)
         triplet = 0
     elif nargin >= 3 && nargin <= 5:

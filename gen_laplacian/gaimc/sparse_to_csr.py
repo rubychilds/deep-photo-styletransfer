@@ -59,14 +59,14 @@ def sparse_to_csr(A, varargin):
 
   else
       n = size(A,1)
-      nz = nnz(A)
-      ncol = size(A,2)
+      nz = np.count_nonzero(A)
+      ncol = size(A, 2)
       retc = nargout > 1
       reta = nargout > 2
       if reta:
-          [nzi, nzj, nzv] = find(A)
+          [nzi, nzj, nzv] = np.nonzero(A)
       else:
-          [nzi, nzj] = find(A)
+          [nzi, nzj] = np.nonzero(A)
 
   if retc:
       ci = np.zeros(nz,1)
