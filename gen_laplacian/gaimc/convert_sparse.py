@@ -1,5 +1,6 @@
 import sparse_to_csr
 
+
 def convert_sparse(A):
     # CONVERT_SPARSE Convert a sparse matrix to the native gaimc representation
     #

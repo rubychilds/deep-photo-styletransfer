@@ -1,6 +1,7 @@
 import numpy as np
 import boxfilter
 
+
 def guidedfilter_color(I, p, r, eps):
     #   GUIDEDFILTER_COLOR   O(1) time implementation of guided filter using a color image as the guidance.
     #
@@ -9,8 +10,8 @@ def guidedfilter_color(I, p, r, eps):
     #   - local window radius: r
     #   - regularization parameter: eps
 
-    [hei, wid] = size(p)
-    N = boxfilter(ones(hei, wid), r) # the size of each local patch; N=(2r+1)^2 except for boundary pixels.
+    [hei, wid] = p.shape
+    N = boxfilter(np.ones((hei, wid)), r) # the size of each local patch; N=(2r+1)^2 except for boundary pixels.
 
     mean_I_r = boxfilter(I(:, :, 1), r) ./ N
     mean_I_g = boxfilter(I(:, :, 2), r) ./ N
@@ -47,14 +48,12 @@ def guidedfilter_color(I, p, r, eps):
                 var_I_rb(y, x), var_I_gb(y, x), var_I_bb(y, x)]
             # Sigma = Sigma + eps * eye(3)
             cov_Ip = [cov_Ip_r(y, x), cov_Ip_g(y, x), cov_Ip_b(y, x)]
-            a(y, x, :) = cov_Ip * inv(Sigma + eps * eye(3))  # Eqn. (14) in the paper
-        end
-    end
+            a(y, x, :) = cov_Ip * inv(Sigma + eps * np.identity(3))  # Eqn. (14) in the paper
 
-    b = mean_p - a(:, :, 1) .* mean_I_r - a(:, :, 2) .* mean_I_g - a(:, :, 3) .* mean_I_b; % Eqn. (15) in the paper
+    b = mean_p - a(:, :, 1) .* mean_I_r - a(:, :, 2) .* mean_I_g - a(:, :, 3) .* mean_I_ba  # Eqn. (15) in the paper
 
-    q = (boxfilter(a(:, :, 1), r).* I(:, :, 1) +\
-         boxfilter(a(:, :, 2), r).* I(:, :, 2) +\
-         boxfilter(a(:, :, 3), r).* I(:, :, 3) +\
+    q = (boxfilter(a(:, :, 1), r).* I[:, :, 1] +\
+         boxfilter(a(:, :, 2), r).* I[:, :, 2] +\
+         boxfilter(a(:, :, 3), r).* I[:, :, 3] +\
          boxfilter(b, r)) ./ N  # Eqn. (16) in the paper
     return q

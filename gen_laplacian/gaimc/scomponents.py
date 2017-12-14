@@ -38,10 +38,10 @@ def scomponents(A):
     end
 
     n= length(rp) - 1
-    sci = np.zeros(n, 1)
+    sci = np.zeros((n, 1))
     cn = 1
-    root = np.zeros(n, 1)
-    dt = np.zeros(n, 1)
+    root = np.zeros((n, 1))
+    dt = np.zeros((n, 1))
     t = 0
     cs = zeros(n, 1)
     css = 0  # component stack

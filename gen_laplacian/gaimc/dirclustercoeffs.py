@@ -2,7 +2,7 @@ import numpy as np
 import sparse_to_csr
 
 
-def dirclustercoeffs(A, weighted, normalized):
+def dirclustercoeffs(A, weighted=True, normalized=True):
     # DIRCLUSTERCOEFFS Compute clustering coefficients for a directed graph
     #
     # cc=dirclustercoeffs(A) returns the directed clustering coefficients
@@ -34,10 +34,6 @@ def dirclustercoeffs(A, weighted, normalized):
     # 2008-04-22: Initial coding
     # 2009-05-15: Documentation and example
 
-    if not exist('normalized', 'var') or isempty(normalized):
-        normalized = True
-    if not exist('weighted', 'var') or isempty(weighted):
-        weighted = True
     donorm = 1
     usew = 1
     if not normalized:
@@ -56,10 +52,10 @@ def dirclustercoeffs(A, weighted, normalized):
     else
         if usew:
             [rp, ci, ai] = sparse_to_csr(A)
-            [cp, ri, ati] = sparse_to_csr(A')
+            [cp, ri, ati] = sparse_to_csr(np.transpose(A))
         else:
             [rp, ci] = sparse_to_csr(A)
-            [cp, ri] = sparse_to_csr(A')
+            [cp, ri] = sparse_to_csr(np.transpose(A))
 
         if any(ai) < 0:
             error('gaimc:clustercoeffs',...
@@ -69,20 +65,20 @@ def dirclustercoeffs(A, weighted, normalized):
     n=length(rp)-1
 
     # initialize all the variables
-    cc = np.zeros(n, 1)
+    cc = np.zeros((n, 1))
     ind = false(n, 1)
-    cache = np.zeros(n, 1)
-    degs = np.zeros(n, 1)
+    cache = np.zeros((n, 1))
+    degs = np.zeros((n, 1))
     if nargout > 1:
-        cccyc = np.zeros(n, 1)
+        cccyc = np.zeros((n, 1))
     if nargout > 2:
-        ccmid= np.zeros(n, 1)
+        ccmid= np.zeros((n, 1))
     if nargout > 3:
-        ccin= np.zeros(n, 1)
+        ccin= np.zeros((n, 1))
     if nargout > 4:
-        ccout= np.zeros(n, 1)
+        ccout= np.zeros((n, 1))
     if nargout > 5:
-        nf= np.zeros(n, 1)
+        nf= np.zeros((n, 1))
     # precompute degrees
     for v=1:n,
         for rpi=rp(v):rp(v+1)-1,

@@ -12,7 +12,7 @@ def corenums(A):
     # for each vertex.  That is, vertex vi was removed at step rt[vi].
     #
     # This method works on directed graphs but gives the in-degree core number.
-    # To get the out-degree core numbers, call corenums(A').
+    # To get the out-degree core numbers, call corenums(np.transpose(A)).
     #
     # The linear algorithm comes from:
     # Vladimir Batagelj and Matjaz Zaversnik, "An O(m) Algorithm for Cores
@@ -44,9 +44,9 @@ def corenums(A):
     # all vertices and removing the smallest.
 
     # compute in-degrees and maximum indegree
-    d = np.zeros(n, 1)
+    d = np.zeros((n, 1))
     maxd = 0
-    rt = np.zeros(n, 1)
+    rt = np.zeros((n, 1))
     for k=1:nz:
         newd = d(ci(k)) + 1
         d(ci(k)) = newd

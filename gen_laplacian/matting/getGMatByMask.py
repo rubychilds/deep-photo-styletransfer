@@ -1,11 +1,15 @@
+import numpy as np
+import imIndexToVect
+
+
 def getGMatByMask(w, h, mask):
     imgSize = w*h
 
-    dS=[1,-1]
+    dS=[1, -1]
     filtSizeS = 1
 
-    %indsGx1=[]; indsGx2=[]; valsGx=[]
-    %indsGy1=[]; indsGy2=[]; valsGy=[]
+    #indsGx1=[]; indsGx2=[]; valsGx=[]
+    #indsGy1=[]; indsGy2=[]; valsGy=[]
 
     indsGx1 = np.zeros(imgSize*2,1)
     indsGx2 = np.zeros(imgSize*2,1)
@@ -20,17 +24,20 @@ def getGMatByMask(w, h, mask):
     indsG42 = np.zeros(imgSize*2,1)
     valsG4 = np.zeros(imgSize*2,1)
 
-    indy=0; indx=0; ind3=0; ind4=0;
+    indy=0
+    indx=0
+    ind3=0
+    ind4=0
 
     for x=1:w-1:
       for y=1:h:
         if ((~mask(y,x))&(~mask(y,x+1)))
           continue
         for disp=0:filtSizeS:
-          ind x =indx+1
-          indsGx1(indx)=imIndexToVect(y,x,h)
-          indsGx2(indx)=imIndexToVect(y,x+disp,h)
-          valsGx(indx)=dS(disp+1);
+          indx = indx + 1
+          indsGx1(indx) = imIndexToVect(y,x,h)
+          indsGx2(indx) = imIndexToVect(y,x+disp,h)
+          valsGx(indx) = dS(disp+1)
 
     for x=1:w:
       for y=1:h-1:
@@ -38,9 +45,9 @@ def getGMatByMask(w, h, mask):
           continue
         for disp=0:filtSizeS:
           indy=indy+1;
-          indsGy1(indy)=imIndexToVect(y,x,h)
-          indsGy2(indy)=imIndexToVect(y+disp,x,h)
-          valsGy(indy)=dS(disp+1)
+          indsGy1(indy) = imIndexToVect(y,x,h)
+          indsGy2(indy) = imIndexToVect(y+disp,x,h)
+          valsGy(indy) = dS(disp+1)
 
     for x=1:w-1:
       for y=1:h-1:
@@ -62,7 +69,7 @@ def getGMatByMask(w, h, mask):
           indsG42(ind4) = imIndexToVect(y-disp,x+disp,h)
           valsG4(ind4 ) =dS(disp+1)
 
-    %'done inds'
+    #'done inds'
     indsGx1 = indsGx1(1:indx)
     indsGx2 = indsGx2(1:indx)
     valsGx = valsGx(1:indx)

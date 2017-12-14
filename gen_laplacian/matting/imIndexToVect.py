@@ -1,3 +1,5 @@
-function I = imIndexToVect(Y, X, imHeight)
+import numpy as np
 
-I = reshape(Y + (X-1)*imHeight,prod(size(X)), 1)
+
+def imIndexToVect(Y, X, imHeight):
+    return np.reshape(Y + (X-1)*imHeight, (prod(X.shape), 1))

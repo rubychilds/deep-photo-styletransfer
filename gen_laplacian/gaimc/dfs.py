@@ -1,4 +1,7 @@
-    def dfs(A, u, full, target):
+import sparse_to_csr
+
+
+def dfs(A, u, full=0, target=0):
     # DFS Compute depth first search distances, times, and tree for a graph
     #
     # [d dt ft pred] = dfs(A,u) returns the distance (d), the discover (dt) and
@@ -30,11 +33,6 @@
     # History
     # 2008-04-10: Initial coding
 
-    if not exist('full','var') or isempty(full):
-        full=0
-    if not exist('target','var') or isempty(full):
-        target=0
-
     if isstruct(A):
         rp = A.rp
         ci = A.ci
@@ -42,11 +40,11 @@
         [rp, ci] = sparse_to_csr(A)
 
     n = length(rp) - 1
-    d = -1*np.ones(n,1)
-    dt = -1*np.ones(n,1)
-    ft = -1*np.ones(n,1)
-    pred = np.zeros(1,n)
-    rs = np.zeros(2*n,1)
+    d = -1*np.ones((n,1))
+    dt = -1*np.ones((n,1))
+    ft = -1*np.ones((n,1))
+    pred = np.zeros((1,n))
+    rs = np.zeros((2*n,1))
     rss = 0 # recursion stack holds two nums (v,ri)
 
     # start dfs at u

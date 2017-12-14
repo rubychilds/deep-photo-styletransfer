@@ -1,4 +1,5 @@
 import numpy as np
+import sparse
 
 
 def csr_to_sparse(rp, ci, ai, ncols):

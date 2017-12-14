@@ -1,4 +1,8 @@
-    def clustercoeffs(A, weighted, normalized):
+import numpy as np
+import sparse_to_csr
+
+
+def clustercoeffs(A, weighted=True, normalized=True):
     # CLUSTERCOEFFS Compute undirected clustering coefficients for a graph
     #
     # ccfs=clustercoeffs(A) compute normalized, weighted clustering
@@ -23,10 +27,6 @@
     # History
     # 2009-05-15: First history comment, originally written in 2008
 
-    if ~exist('normalized','var') || isempty(normalized):
-        normalized = true
-    if ~exist('weighted','var') || isempty(weighted):
-        weighted = True
     donorm = 1
     usew = 1
     if not normalized:
@@ -40,25 +40,25 @@
         if usew:
             ai=A.ai
     else:
-        if not isequal(A,A'):
+        if not isequal(A,np.transpose(A)):
              error('gaimc:clustercoeffs',...
                 'only undirected (symmetric) inputs allowed: see dirclustercoeffs')
         if usew:
-            [rp ci ai]=sparse_to_csr(A);
+            [rp, ci, ai]=sparse_to_csr(A);
         else:
-            [rp ci]=sparse_to_csr(A)
+            [rp, ci] = sparse_to_csr(A)
 
         if any(ai) < 0:
             error('gaimc:clustercoeffs',...
                 ['only positive edge weights allowed\n' ...
                  'try clustercoeffs(A,0) for an unweighted comptuation'])
 
-    n=length(rp)-1
-    cc=zeros(n,1)
-    ind=false(n,1)
-    cache=zeros(n,1)
-    ew=1
-    ew2=1
+    n = length(rp)-1
+    cc = np.zeros()(n,1))
+    ind = false(n,1)
+    cache = np.zeros((n,1))
+    ew = 1
+    ew2 = 1
 
     for v=1:n:
         for rpi = rp(v):rp(v+1)-1:
@@ -74,7 +74,7 @@
         # run two steps of bfs to try and find triangles.
         for rpi=rp(v):rp(v+1)-1
             w = ci(rpi)
-            if v==w:
+            if v == w:
                 d = d-1
                 continue
             for rpi2 = rp(w):rp(w+1)-1:

@@ -1,4 +1,8 @@
-def bfs(A,u,target):
+import numpy as np
+import sparse_to_csr
+
+
+def bfs(A, u, target=0):
     # BFS Compute breadth first search distances, times, and tree for a graph
     #
     # [d dt pred] = bfs(A,u) returns the distance (d) and the discover time
@@ -20,18 +24,19 @@ def bfs(A,u,target):
     # History
     # 2008-04-13: Initial coding
 
-    if not exist('target','var') || isempty(full):
-        target = 0
-
     if isstruct(A):
         rp = A.rp
         ci = A.ci
     else:
         [rp, ci] = sparse_to_csr(A)
 
-    n=length(rp)-1
-    d=-1*ones(n,1); dt=-1*ones(n,1); pred=zeros(1,n)
-    sq=zeros(n,1); sqt=0; sqh=0 # search queue and search queue tail/head
+    n = length(rp)-1
+    d = -1*np.ones((n),1)
+    dt = -1*np.ones((n, 1))
+    pred = np.zeros((1, n))
+    sq = np.zeros((n,1))
+    sqt = 0
+    sqh = 0 # search queue and search queue tail/head
 
     # start bfs at u
     sqt = sqt+1
@@ -39,7 +44,7 @@ def bfs(A,u,target):
     t = 0
     d(u) = 0
     dt(u) = t
-    t = t + 1 
+    t = t + 1
     pred(u) = u
     while sqt-sqh > 0:
         sqh = sqh + 1
@@ -56,4 +61,4 @@ def bfs(A,u,target):
                 pred(w) = v
                 if w == target:
                     return
-    return [d dt pred]
+    return [d, dt, pred]

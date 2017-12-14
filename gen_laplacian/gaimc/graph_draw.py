@@ -54,8 +54,6 @@ def graph_draw(adj, xy, varargin):
           case 'fontsize',  fontsize = varargin{i+1}
           case 'shapes', node_t  = varargin{i+1}
           node_t = node_t(:)
-      end
-  end
 
   x = xy(:,1)
   x = x - min(x)

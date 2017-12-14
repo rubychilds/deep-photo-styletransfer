@@ -1,5 +1,8 @@
+import numpy as np
+
+
 def solveFB(I, alpha):
-      [h,w,c] = size(I);
+      [h, w, c] = I.shape
       mask = (alpha >= 0.02).*(alpha <= 0.98)
       [Gx, Gy, Gd1, Gd2] = getGMatByMask(w, h, mask)
       G = [Gx, Gy, Gd1, Gd2]
@@ -25,7 +28,7 @@ def solveFB(I, alpha):
         bs = tI(:)
         A = [Ai, As, Ag]
         b = [bi, bs, bg]
-        x = (A'*A)\(A'*b)
+        x = (np.transpose(A)*A)\(np.transpose(A)*b)
         F(:,:,t) = reshape(x(1:w*h),h,w)
         B(:,:,t) = reshape(x(w*h+1:end),h,w)
 

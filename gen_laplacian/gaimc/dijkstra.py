@@ -54,10 +54,10 @@ def dijkstra(A, u):
         error('gaimc:dijkstra', 'dijkstra''s algorithm cannot handle negative edge weights.')
 
     n = length(rp)-1
-    d = math.inf*np.ones(n,1)
-    T = np.zeros(n,1)
-    L = np.zeros(n,1)
-    pred = np.zeros(1,length(rp)-1)
+    d = math.inf*np.ones((n,1))
+    T = np.zeros((n,1))
+    L = np.zeros((n,1))
+    pred = np.zeros((1,length(rp)-1))
 
     n = 1
     T(n) = u
@@ -120,15 +120,15 @@ def dijkstra(A, u):
                     kt = T(k)
                 # update the heap, move the element down in the heap
                 while 1 and not onlyup:
-                    i = 2*k;
+                    i = 2*k
                     if i > n:
                         break
                     if i == n:
                         it = T(i)           # only one child, so skip
                     else:                        # pick the smallest child
-                        lc = T(i);
-                        rc = T(i+1);
-                        it = lc;
+                        lc = T(i)
+                        rc = T(i+1)
+                        it = lc
                         if d(rc) < d(lc):
                             i = i + 1
                             it = rc

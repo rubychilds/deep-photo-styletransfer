@@ -3,7 +3,7 @@ import numpy as np
 import math
 
 
-def mst_prim(A, full, u):
+def mst_prim(A, full=0, u=1):
     # MST_PRIM Compute a minimum spanning tree with Prim's algorithm
     #
     # T = mst_prim(A) computes a minimum spanning tree T using Prim's algorithm
@@ -20,7 +20,7 @@ def mst_prim(A, full, u):
     # Example:
     #   load_gaimc_graph('airports'); # A(i,j) = negative travel time
     #   A = -A; # convert to travel time.
-    #   A = max(A,A'); # make the travel times symmetric
+    #   A = max(A,np.transpose(A)); # make the travel times symmetric
     #   T = mst_prim(A);
     #   gplot(T,xy); # look at the minimum travel time tree in the US
 
@@ -31,11 +31,6 @@ def mst_prim(A, full, u):
     #  2009-05-02: Added example
 
     # TODO: Add example
-
-    if not exist('full', 'var') or isempty(full):
-        full = 0
-    if not exist('target', 'var') or isempty(full):
-        u = 1
 
     if isstruct(A):
         rp = A.rp
@@ -48,7 +43,7 @@ def mst_prim(A, full, u):
 
     if check && any(ai) < 0:
          error('gaimc:prim', 'prim''s algorithm cannot handle negative edge weights.')
-    if check && not isequal(A,A'):
+    if check && not isequal(A,np.transpose(A)):
          error('gaimc:prim',"prims algorithm requires an undirected graph.")
 
     nverts = length(rp) -1
@@ -172,9 +167,9 @@ def mst_prim(A, full, u):
         if pred(i) > 0:
             nmstedges = nmstedges + 1
 
-    ti = np.zeros(nmstedges,1)
+    ti = np.zeros((nmstedges,1))
     tj = ti
-    tv = np.zeros(nmstedges,1)
+    tv = np.zeros((nmstedges,1))
     k = 1
     for i=1:nverts
         if pred(i) > 0:
@@ -189,7 +184,7 @@ def mst_prim(A, full, u):
 
     if nargout == 1:
         T = sparse(ti, tj, tv, nverts, nverts)
-        T = T + T'
+        T = T + np.transpose(T)
         varargout{1} = T
     else:
         varargout = {ti, tj, tv}

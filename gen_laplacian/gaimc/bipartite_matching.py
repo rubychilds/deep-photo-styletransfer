@@ -45,7 +45,7 @@ def bipartite_matching(varargin):
     # 2009-04-30: Modified for gaimc library
     # 2009-05-15: Fixed error with empty inputs and triple added example.
 
-    [rp, ci, ai, tripi, n, m] = bipartite_matching_setup(varargin{:});
+    [rp, ci, ai, tripi, n, m] = bipartite_matching_setup(varargin{:})
 
     if isempty(tripi):
         error(nargoutchk(0,3,nargout,'struct'))
@@ -53,9 +53,9 @@ def bipartite_matching(varargin):
         error(nargoutchk(0,4,nargout,'struct'))
 
     if ~isempty(tripi) && nargout > 3:
-        [val m1 m2 mi] = bipartite_matching_primal_dual(rp, ci, ai, tripi, n, m);
+        [val, m1, m2, mi] = bipartite_matching_primal_dual(rp, ci, ai, tripi, n, m)
     else:
-        [val m1 m2] = bipartite_matching_primal_dual(rp, ci, ai, tripi, n, m);
+        [val, m1, m2] = bipartite_matching_primal_dual(rp, ci, ai, tripi, n, m)
 
 
 def bipartite_matching_setup(A, ei, ej, n, m):
@@ -63,7 +63,7 @@ def bipartite_matching_setup(A, ei, ej, n, m):
 
     if nargin == 1:
         if isstruct(A):
-            [nzi nzj nzv] = csr_to_sparse(A.rp,A.ci,A.ai)
+            [nzi, nzj, nzv] = csr_to_sparse(A.rp, A.ci, A.ai)
         else:
             [nzi, nzj, nzv] = np.nonzero(A)
         [n, m] = size(A)
@@ -78,7 +78,7 @@ def bipartite_matching_setup(A, ei, ej, n, m):
             m = max(nzj)
         triplet = 1
     else:
-        error(nargchk(3, 5, nargin, 'struct'));
+        error(nargchk(3, 5, nargin, 'struct'))
     nedges = length(nzi)
 
     rp = ones(n+1, 1) # csr matrix with extra edges
@@ -133,16 +133,17 @@ def bipartite_matching_setup(A, ei, ej, n, m):
 
     return [rp, ci, ai, tripi, n, m]
 
+
 def bipartite_matching_primal_dual(rp, ci, ai, tripi, n, m):
     # BIPARTITE_MATCHING_PRIMAL_DUAL
 
-    alpha = np.zeros(n,1) # variables used for the primal-dual algorithm
-    beta = np.zeros(n+m,1)
-    queue = np.zeros(n,1)
-    t = np.zeros(n+m,1)
-    match1 = np.zeros(n,1)
-    match2 = np.zeros(n+m,1)
-    tmod = np.zeros(n+m,1)
+    alpha = np.zeros((n,1))  # variables used for the primal-dual algorithm
+    beta = np.zeros((n+m,1))
+    queue = np.zeros((n,1))
+    t = np.zeros((n + m,1))
+    match1 = np.zeros((n,1))
+    match2 = np.zeros((n+m,1))
+    tmod = np.zeros((n+m,1))
     ntmod = 0
 
     # initialize the primal and dual variables
@@ -171,7 +172,7 @@ def bipartite_matching_primal_dual(rp, ci, ai, tripi, n, m):
                 if ai(rpi) < alpha(k)+beta(j) - 1e-8:
                     continue
                 if t(j) == 0:
-                    tail = tail+1
+                    tail = tail + 1
                     queue(tail) = match2(j)
                     t(j) = k
                     ntmod = ntmod+1
@@ -184,7 +185,7 @@ def bipartite_matching_primal_dual(rp, ci, ai, tripi, n, m):
                             match1(k) = j
                             j = temp
                         break; # we found an alternating path
-            head = head+1;
+            head = head+1
 
         if match1(i) < 1, # still not matched, so update primal, dual and repeat
             theta = math.inf
@@ -192,8 +193,8 @@ def bipartite_matching_primal_dual(rp, ci, ai, tripi, n, m):
                 t1=queue(j)
                 for rpi = rp(t1):rp(t1+1)-1
                     t2 = ci(rpi)
-                    if t(t2) == 0 && alpha(t1) + beta(t2) - ai(rpi) < theta,
-                        theta = alpha(t1) + beta(t2) - ai(rpi);
+                    if t(t2) == 0 and (alpha(t1) + beta(t2) - ai(rpi) < theta):
+                        theta = alpha(t1) + beta(t2) - ai(rpi)
 
 
             for j=1:head-1,
@@ -209,7 +210,7 @@ def bipartite_matching_primal_dual(rp, ci, ai, tripi, n, m):
     for i=1:n
         for rpi=rp(i):rp(i+1)-1
             if ci(rpi) == match1(i):
-                val=val+ai(rpi)
+                val = val+ai(rpi)
 
     noute = 0; # count number of output edges
     for i=1:n
@@ -231,4 +232,4 @@ def bipartite_matching_primal_dual(rp, ci, ai, tripi, n, m):
                 if match1(i) <= m && ci(rpi) = =match1(i):
                     mi(tripi(rpi)) = 1
 
-    return [val m1 m2 mi]
+    return [val, m1, m2, mi]

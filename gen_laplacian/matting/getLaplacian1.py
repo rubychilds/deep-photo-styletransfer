@@ -49,4 +49,4 @@ def getLaplacian1(I, consts, epsilon=0.0000001, win_size=1):
   sumA = sum(A,2)
   A = spdiags(sumA(:),0,img_size,img_size)-A
 
-return A1, A
+  return A1, A

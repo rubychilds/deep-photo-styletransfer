@@ -1,3 +1,9 @@
+import downSmpIm
+import solveAlphaC2F
+import upSampleAlphaUsingImg
+import solveAlpha
+
+
 def solveAlphaC2F(I, consts_map, consts_vals, levels_num, active_levels_num, varargin):
 
   if length(varargin) > 0:
@@ -8,7 +14,7 @@ def solveAlphaC2F(I, consts_map, consts_vals, levels_num, active_levels_num, var
     thr_alpha = 0.02
 
   erode_mask_w = 1
-  active_levels_num=max(active_levels_num,1);
+  active_levels_num = max(active_levels_num, 1);
   if levels_num > 1:
     sI = downSmpIm(I, 2);
     s_consts_map = round(downSmpIm(double(consts_map),2))

@@ -38,7 +38,7 @@ def largest_component(A,sym):
       sym=0
 
   if sym:
-      As = A|A'
+      As = A|np.transpose(A)
       [ci, sizes] = scomponents(As)
   else:
       [ci, sizes] = scomponents(A)

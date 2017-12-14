@@ -1,12 +1,10 @@
-def upSmpIm(I, new_imgSize, filtS):
+def upSmpIm(I, new_imgSize, filtS=1):
 
-    if not exist('filtS','var'):
-      filtS = 1
     if filtS == 2:
       filt = [1,4,6,4,1]/8
-    if filtS == 1:
+    elif filtS == 1:
       filt = [1,2,1]/2
-    if filtS == 0:
+    elif filtS == 0:
       filt = [1]
 
     id = floor((new_imgSize(1) - size(I,1)*2+1)/2)
@@ -26,6 +24,4 @@ def upSmpIm(I, new_imgSize, filtS):
       for j=1:size(nI,4)
         nI(:,:,i,j)=conv2(filt,filt',nI(:,:,i,j),'same');
 
-    return nI
-
-nI = nI(filtS+1:end-filtS,filtS+1:end-filtS,:,:)
+    return nI(filtS+1:end-filtS,filtS+1:end-filtS,:,:)
