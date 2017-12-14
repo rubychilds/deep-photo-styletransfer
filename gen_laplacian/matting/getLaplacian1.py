@@ -1,25 +1,21 @@
-def getLaplacian1(I,consts,epsilon,win_size):
+import numpy as np
+import cv2
 
-  if (~exist('epsilon','var')):
-    epsilon=0.0000001
-  if (isempty(epsilon)):
-    epsilon=0.0000001
-  if (~exist('win_size','var')):
-    win_size=1
-  if isempty(win_size):
-    win_size=1
 
-  neb_size = (win_size*2+1)^2
-  [h,w,c] = size(I)
-  n=h; m=w;
-  img_size = w*h
-  consts = imerode(consts,ones(win_size*2+1))
+def getLaplacian1(I, consts, epsilon=0.0000001, win_size=1):
 
-  indsM = reshape([1:img_size],h,w)
-  tlen = sum(sum(1-consts(win_size+1:end-win_size,win_size+1:end-win_size)))*(neb_size^2)
+  neb_size = (win_size*2 + 1)**2
+  [h, w, c] = I.shape
+  n = h
+  m = w
+  img_size = w * h
+  consts = cv2.erode(consts, ones(win_size*2+1))
 
-  row_inds = np.zeros(tlen ,1)
-  col_inds = np.zeros(tlen,1)
+  indsM = np.arange(1, img_size+1).reshape((h,w))
+  tlen = sum(sum(1-consts[win_size:-win_size-1, win_size:- win_size])) * (neb_size^2)
+
+  row_inds = np.zeros(tlen, 1)
+  col_inds = np.zeros(tlen, 1)
   vals = np.zeros(tlen,1)
   len = 0
   for j=1+win_size:w-win_size:

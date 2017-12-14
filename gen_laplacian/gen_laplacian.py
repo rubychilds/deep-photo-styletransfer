@@ -1,25 +1,19 @@
 import reshape_img
-import getLaplacian1
+import matting.getLaplacian1
 import numpy as np
-import PIL
+import PIL.Image
 
 
-for i in range(1,60):
-    prefix = '../examples/input/'
-    in_name = [prefix 'in' int2str(i) '.png']
-    disp(['Working on image index = ' int2str(i)])
+for i in range(1, 61):
+    in_name = '../examples/input/in%d.png' %i
+    img = PIL.Image.open(in_name)
+    img.thumbnail((700,700))
+    img = np.asarray(img)
+    [h, w, c] = img.shape
 
-    img = im2double(imread(in_name))
-    img = reshape_img(img, 700)
-    img.shape
+    A = getLaplacian1(img, np.zeros((h, w)), 1e-7, 1)
 
-    [h w c] = img.shape
-
-    disp('Compute Laplacian')
-    A = getLaplacian1(input, zeros(h, w), 1e-7, 1)
-
-    disp('Save to disk')
-    n = nnz(A);
+    n = nnz(A)
     [Ai, Aj, Aval] = find(A)
     CSC = [Ai, Aj, Aval]
     save(['Input_Laplacian_3x3_1e-7_CSC' int2str(i) '.mat'], 'CSC')
