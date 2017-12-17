@@ -1,14 +1,15 @@
-import reshape_img
-import matting.getLaplacian1
 import numpy as np
 import PIL.Image
-import gaim.sparse_to_csr
+
+from gen_laplacian.reshape_img import reshape_img
+import gen_laplacian.matting.getLaplacian1
+import gen_laplacian.gaimc.sparse_to_csr
 
 
 for i in range(1, 61):
-    in_name = '../examples/input/in%d.png' %i
+    in_name = 'examples/input/in%d.png' %i
     img = PIL.Image.open(in_name)
-    img.thumbnail((700,700))
+    img = reshape_img(img, 700)
     img = np.asarray(img)
     [h, w, c] = img.shape
 
