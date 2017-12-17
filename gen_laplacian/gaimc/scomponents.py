@@ -1,4 +1,5 @@
 import numpy as np
+from gaimc.sparse_to_csr import sparse_to_csr
 
 
 def scomponents(A):
