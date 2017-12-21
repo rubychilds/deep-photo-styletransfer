@@ -40,7 +40,7 @@ def getLaplacian1(I, consts, epsilon=0.0000001, win_size=1):
       vals += list(tvals)
       length = length + neb_size**2
 
-  A = sparse.csr_matrix((vals, (row_inds, col_inds)), shape=(img_size, img_size))
+  A = sparse.csr_matrix((np.array(vals), (row_inds, col_inds)), shape=(img_size, img_size))
 
   sumA = np.sum(A, 1)
   A = sparse.spdiags(sumA.flatten(), 0, img_size, img_size) - A
