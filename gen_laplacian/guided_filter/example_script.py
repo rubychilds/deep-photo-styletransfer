@@ -11,13 +11,15 @@ def enhancement():
     I = np.asarray(PIL.Image.open('examples/tulips.png')) / 255
     p = I.copy()
     r = 16
-    eps = 0.1**2
+    eps = 0.1*0.1 #0.1**2
     q = np.zeros_like(I)
     q[:, :, 0] = guidedfilter(I[:, :, 0], p[:, :, 0], r, eps)
     q[:, :, 1] = guidedfilter(I[:, :, 1], p[:, :, 1], r, eps)
     q[:, :, 2] = guidedfilter(I[:, :, 2], p[:, :, 2], r, eps)
-    I_enhanced = (I - q) * 5 + q
-    img = PIL.Image.fromarray(I_enhanced*255)
+    I_enhanced = ((I - q) * 5 + q)*255.
+    I_enhanced = I_enhanced.astype('uint8')
+    print(np.max(I_enhanced), np.min(I_enhanced))
+    img = PIL.Image.fromarray(I_enhanced)
     img.save('examples/output/tulips.png')
 
 
@@ -43,8 +45,9 @@ def flash():
     q[:, :, 0] = guidedfilter(I[:, :, 0], p[:, :, 0], r, eps)
     q[:, :, 1] = guidedfilter(I[:, :, 1], p[:, :, 1], r, eps)
     q[:, :, 2] = guidedfilter(I[:, :, 2], p[:, :, 2], r, eps)
-
-    img = PIL.Image.fromarray(q*255)
+    q = q*255.
+    q = q.astype('uint8')
+    img = PIL.Image.fromarray(q)
     img.save('examples/output/cave.png')
 
 
@@ -53,6 +56,15 @@ def smoothing():
     # figure 1 in our paper
     I = np.asarray(PIL.Image.open('examples/cat.png')) / 255
     p = I.copy()
-    q = guidedfilter(I, p, r=4, eps=0.2**2)
-    img = PIL.Image.fromarray(q*255)
+
+    r = 4
+    eps = 0.2**2
+    q = np.zeros_like(I)
+
+    q[:, :, 0] = guidedfilter(I[:, :, 0], p[:, :, 0], r, eps)
+    q[:, :, 1] = guidedfilter(I[:, :, 1], p[:, :, 1], r, eps)
+    q[:, :, 2] = guidedfilter(I[:, :, 2], p[:, :, 2], r, eps)
+    q = q*255.
+    q = q.astype('uint8')
+    img = PIL.Image.fromarray(q)
     img.save('examples/output/cat.png')
