@@ -1,4 +1,4 @@
-import boxfilter
+from boxfilter import boxfilter
 import numpy as np
 
 
@@ -27,5 +27,5 @@ def guidedfilter(I, p, r, eps):
     mean_a = boxfilter(a, r) / N
     mean_b = boxfilter(b, r) / N
 
-    q = mean_a .* I + mean_b  # Eqn. (8) in the paper
+    q = mean_a * I + mean_b  # Eqn. (8) in the paper
     return q

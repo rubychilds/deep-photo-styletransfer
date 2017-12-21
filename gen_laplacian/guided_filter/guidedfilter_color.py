@@ -1,5 +1,5 @@
 import numpy as np
-import boxfilter
+from boxfilter import boxfilter
 
 
 def guidedfilter_color(I, p, r, eps):
@@ -42,7 +42,7 @@ def guidedfilter_color(I, p, r, eps):
 
     a = np.zeros((hei, wid, 3))
     for y in range(0, hei):
-        for x in range(0, wid)
+        for x in range(0, wid):
             Sigma = [var_I_rr[y, x], var_I_rg[y, x], var_I_rb[y, x],
                      var_I_rg[y, x], var_I_gg[y, x], var_I_gb[y, x],
                      var_I_rb[y, x], var_I_gb[y, x], var_I_bb[y, x]]
