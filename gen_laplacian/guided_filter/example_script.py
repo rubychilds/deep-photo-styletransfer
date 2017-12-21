@@ -11,14 +11,14 @@ def enhancement():
     I = np.asarray(PIL.Image.open('examples/tulips.png')) / 255
     p = I.copy()
     r = 16
-    eps = 0.1*0.1 #0.1**2
+    eps = 0.1**2
     q = np.zeros_like(I)
     q[:, :, 0] = guidedfilter(I[:, :, 0], p[:, :, 0], r, eps)
     q[:, :, 1] = guidedfilter(I[:, :, 1], p[:, :, 1], r, eps)
     q[:, :, 2] = guidedfilter(I[:, :, 2], p[:, :, 2], r, eps)
-    I_enhanced = ((I - q) * 5 + q)*255.
+    I_enhanced = (I - q) * 5 + q
+    I_enhanced = I_enhanced*255.
     I_enhanced = I_enhanced.astype('uint8')
-    print(np.max(I_enhanced), np.min(I_enhanced))
     img = PIL.Image.fromarray(I_enhanced)
     img.save('examples/output/tulips.png')
 
