@@ -19,9 +19,9 @@ def guidedfilter_color(I, p, r, eps):
 
     mean_p = boxfilter(p, r) / N
 
-    mean_Ip_r = boxfilter(I[:, :, 0)*p, r) / N
-    mean_Ip_g = boxfilter(I[:, :, 1)*p, r) / N
-    mean_Ip_b = boxfilter(I[:, :, 2)*p, r) / N
+    mean_Ip_r = boxfilter(I[:, :, 0]*p, r) / N
+    mean_Ip_g = boxfilter(I[:, :, 1]*p, r) / N
+    mean_Ip_b = boxfilter(I[:, :, 2]*p, r) / N
 
     # covariance of (I, p) in each local patch.
     cov_Ip_r = mean_Ip_r - mean_I_r * mean_p
